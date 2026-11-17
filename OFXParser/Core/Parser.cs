@@ -75,7 +75,7 @@ namespace OFXParser
                 else if (line.StartsWith("<") && line.EndsWith(">"))
                 {
                     //ADJUST FOR POSSIBLE (BUT NOT ALLOWED) EMPTY OFX TAGS
-                    if (line == "<BALAMT>" || line == "<PRINYTD>" || line == "<PRINLTD>")
+                    if (line == "<BALAMT>" || line == "<PRINYTD>" || line == "<PRINLTD>" || line == "<NAME>")
                     {
                         AddTabs(result, level + 1, true);
                         result.Append(line);
@@ -216,6 +216,12 @@ namespace OFXParser
                                 if (currentTransaction != null)
                                 {
                                     currentTransaction.Description = string.IsNullOrEmpty(xmlTextReader.Value) ? string.Empty : xmlTextReader.Value.Trim().Replace("  ", " ");
+                                }
+                                break;
+                            case "NAME":
+                                if (currentTransaction != null)
+                                {
+                                    currentTransaction.Name = xmlTextReader.Value.Trim().Replace("  ", " ");
                                 }
                                 break;
                             case "BALAMT":
